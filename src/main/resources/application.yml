@@ -1,0 +1,11 @@
+spring:
+  profiles:
+    active:
+    - dev
+  servlet:
+    multipart:
+     max-file-size: 10Mb
+  http:
+    encoding:
+      charset: UTF-8
+  

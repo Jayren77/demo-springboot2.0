@@ -1,0 +1,60 @@
+debug: true
+
+jasypt: #解加密配置
+  encryptor:
+    password: foo   #简单配置
+    
+spring:
+  datasource: #数据源配置
+    hikari:
+      jdbc-url: jdbc:mysql://localhost:3306/quratz?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
+      username: root
+      password:
+      driver-class-name: com.mysql.jdbc.Driver
+  redis: #redis配置
+    host: 127.0.0.1
+    port: 6379
+    database: 0
+    test-on-borrow: true
+
+    zkAddr:
+    zkSessionTimeoutMs:
+    zkProxyDir:
+    zkGroupDir:
+    jedis:
+      pool:
+        max-idle: 10
+        max-active: 30
+        max-wait: 1000ms
+        
+  quartz: #定时任务配置
+    job-store-type: JDBC 
+    jdbc:
+      schema: 
+      initialize-schema: always
+    properties:
+      org: 
+        quartz: 
+          scheduler: 
+            instanceName: clusteredScheduler
+            instanceId: AUTO 
+          jobStore: 
+            class: org.quartz.impl.jdbcjobstore.JobStoreTX  #脱离应用容器管理事务,如需应用程序接管,可使用JobStoreCMT
+            driverDelegateClass: org.quartz.impl.jdbcjobstore.StdJDBCDelegate  #可以根据数据源自动识别
+            tablePrefix: QRTZ_ 
+            isClustered: true 
+            clusterCheckinInterval: 10000 
+            useProperties: false
+          threadPool: 
+            class: org.quartz.simpl.SimpleThreadPool 
+            threadCount: 10 
+            threadPriority: 5 
+            threadsInheritContextClassLoaderOfInitializingThread: true
+    cron: #配置定时任务表达式
+      mail: '5 * * * * ?'
+  output:
+    ansi:
+      enabled: always #只是让控制台的日志输出好看点
+#日志配置
+logging:
+  path:
